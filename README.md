@@ -16,7 +16,7 @@
 
 <p align="center">
   <a href="https://arijit-hub.github.io/dino_forcing"><img src="https://img.shields.io/badge/arXiv-PDF-b31b1b" alt="arXiv"></a>
-  <a href="https://arijit-hub.github.io/dino_forcing"><img src="https://img.shields.io/badge/Project-Page-4682b4" alt="Project Page"></a>
+  <a href="https://github.com/arijit-hub/dino_forcing/tree/master"><img src="https://img.shields.io/badge/Project-Page-4682b4" alt="Project Page"></a>
 </p>
 
 This repository contains the official implementation of **Dino Forcing**, a method for training data efficient flow models.
