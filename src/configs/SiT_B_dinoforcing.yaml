@@ -1,0 +1,133 @@
+cluster:
+  num_workers: 8
+  num_gpus: 4
+  num_nodes: 1
+
+data:
+  _target_: src.data.LatentDataModule
+  train_root_dir: /path/to/dataset/train_wds
+  val_root_dir: /path/to/dataset/val_wds
+  train_dataset_size: 1281167
+  val_dataset_size: 50000
+  batch_size: 64
+  num_workers: ${cluster.num_workers}
+  img_size: 256
+  buffer_size: 1000
+  train_transform_fn:
+    _partial_: True
+    _target_: src.data.cls_transform
+    img_size: ${data.img_size}
+    num_classes: 1000
+    train: True
+    load_dino: True
+  val_transform_fn:
+    _partial_: True
+    _target_: src.data.cls_transform
+    img_size: ${data.img_size}
+    num_classes: 1000
+    train: False
+    load_dino: True
+  collate_fn:
+    _partial_: True
+    _target_: src.data.latent_collate_fn
+
+model:
+  _target_: src.training_module.SiTTrainingModule
+  network:
+    _target_: src.sit_class_cond_network.SiT
+    num_blocks: 12
+    embed_dim: 768
+    num_heads: 12
+    patch_size: 2
+    in_channels: 4
+    out_channels: 4
+    resolution: 32
+    condition_dim: 768
+    timesteps_scaling_factor: 10000
+    sit_sa_do_qk_norm: False
+    sit_ffn_expansion_factor: 4
+    num_classes: 1000
+    # self_cond params
+    use_self_cond: True
+    self_cond_in_dim: 768
+    self_cond_out_dim: 768
+    self_cond_drop_prob: 0.1
+    self_cond_projector_dim: 2048
+    use_layernorm_in_self_cond: True
+  ema_network:
+    _partial_: True
+    _target_: ema_pytorch.EMA
+    beta: 0.9999
+    update_after_step: 0
+    update_every: 1
+    min_value: 0.9999
+    include_online_model: False
+  loss:
+    _target_: src.training_module.SiTLoss
+    self_cond_loss: ${model.network.use_self_cond}
+    feature_loss_weight: 0.5
+  sampler:
+    _target_: src.sampler.EulerSampler
+    in_resolution: ${model.network.resolution}
+    in_channels: ${model.network.in_channels}
+    num_tokens: 256 # always check
+    self_cond_in_dim: ${model.network.self_cond_in_dim}
+  train_preprocessing:
+    _target_: src.processing.NormalPreprocessing
+    image_preprocessing:
+      _target_: processing.SD1_5_LatentPreprocessing
+      channel_normalization: False
+    train_timestep_sampling: log_normal
+    unconditional_cond_drop_prob: 0.1
+    null_condition: ${model.network.num_classes}
+  val_preprocessing:
+    _target_: src.processing.NormalPreprocessing
+    image_preprocessing:
+      _target_: processing.SD1_5_LatentPreprocessing
+      channel_normalization: False
+    train_timestep_sampling: uniform
+    unconditional_cond_drop_prob: 0.1
+    null_condition: ${model.network.num_classes}
+  img_postprocessing:
+    _target_: src.processing.SD1_5_LatentPostprocessing
+    channel_normalization: False
+  use_compile: True
+  true_dino_features_prob: 0.05
+
+trainer:
+  _target_: lightning.pytorch.Trainer
+  accelerator: gpu
+  devices: ${cluster.num_gpus}
+  precision: bf16-mixed
+  strategy: ddp
+  num_nodes: ${cluster.num_nodes}
+  max_steps: 400000
+  check_val_every_n_epoch: null
+  val_check_interval: 50000
+  gradient_clip_val: null
+  logger:
+    _target_: lightning.pytorch.loggers.WandbLogger
+    name: ${hydra:runtime.choices.model/model}_${now:%H-%M-%S}
+    project: dinoforcing
+    version: ${oc.env:SLURM_JOB_ID, null}
+    log_model: False
+    save_dir: ${artifacts_dir}
+    group: ${trainer.logger.name}
+  default_root_dir: ${artifacts_dir}/${trainer.logger.name}
+  callbacks:
+    - _target_: lightning.pytorch.callbacks.ModelCheckpoint
+      dirpath: ${trainer.default_root_dir}
+      save_last: True
+      every_n_train_steps: 25000
+      save_top_k: -1
+      enable_version_counter: True
+    - _target_: lightning.pytorch.callbacks.LearningRateMonitor
+      logging_interval: step
+    - _target_: src.callbacks.LogImageCallback
+      num_resample: 4
+      num_sampling_steps: 50
+      log_after_n_steps: 25000
+      num_total_images: 10
+
+artifacts_dir: artifacts/${trainer.logger.project}
+ckpt_path: null
