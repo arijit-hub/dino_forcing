@@ -132,11 +132,11 @@ article{ghoshdegeorge2026dinoforcing,
 }
 ```
 
-It would be super nice if you use this citation and see that it says `Ghosh, Degeorge et al.` if you are using an expanded citation format!
+If you are using an expanded citation format, it would be super nice if you can check that it says `Ghosh, Degeorge et al.`.
 
 ## Codebase Acknowledgement
 
 The codebase is heavily inspired from [DiT](https://github.com/facebookresearch/dit), [SiT](https://github.com/willisma/SiT), [REPA](https://github.com/sihyun-yu/REPA), [TREAD](https://github.com/CompVis/tread), [RAE](https://github.com/bytetriper/RAE), [JiT](https://github.com/LTH14/JiT) and [CAD](https://github.com/nicolas-dufour/CAD/tree/master).
 
 ## Acknowledgement
-We would like to thank Nicolas Dufour, Felix Krause, Zeynep Sonat Baltacı, Gatien Chenu, Fei Meng, Julie Mordacq, Yohann Perron, Alexandros Benetatos, Loic Landrieu, Tristan Quétin, Tom Ravaud, Louis Geist and Lucas Ventura for many cool discussions and feedbacks throughout the project. Thee paper was granted compute access to the HPC resources of IDRIS under the allocations 2025-A0181016194, 2025-AD011015436 2026-A0201017545 and 2026-AD011015594R2 made by GENCI.
+We would like to thank Nicolas Dufour, Felix Krause, Zeynep Sonat Baltacı, Gatien Chenu, Fei Meng, Julie Mordacq, Yohann Perron, Alexandros Benetatos, Loic Landrieu, Tristan Quétin, Tom Ravaud, Louis Geist and Lucas Ventura for many cool discussions and feedbacks throughout the project. The paper was granted compute access to the HPC resources of IDRIS under the allocations 2025-A0181016194, 2025-AD011015436 2026-A0201017545 and 2026-AD011015594R2 made by GENCI.
