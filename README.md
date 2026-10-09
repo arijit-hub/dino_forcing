@@ -15,7 +15,7 @@
 </p>
 
 <p align="center">
-  <a href="https://arijit-hub.github.io/dino_forcing"><img src="https://img.shields.io/badge/arXiv-PDF-b31b1b" alt="arXiv"></a>
+  <a href="https://arxiv.org/pdf/2610.11751"><img src="https://img.shields.io/badge/arXiv-PDF-b31b1b" alt="arXiv"></a>
   <a href="https://github.com/arijit-hub/dino_forcing/tree/master"><img src="https://img.shields.io/badge/Project-Page-4682b4" alt="Project Page"></a>
 </p>
 
