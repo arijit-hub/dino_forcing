@@ -125,7 +125,7 @@ In case you find our work useful please don't forget to cite us; else we might j
 ```bibtex
 article{ghoshdegeorge2026dinoforcing,
   title={Dino Forcing Flow Models: Do not denoise what you can predict},
-  author={Ghosh, Arijit and Degeorge, Lucas and Couairon, Paul and A. Efros, Alexei and Kalogeiton, Vicky and Picard, David},
+  author={Ghosh, Arijit and Degeorge, Lucas and Couairon, Paul and Efros, Alexei A. and Kalogeiton, Vicky and Picard, David},
   shortauthor = {{Ghosh, Degeorge et al.}},
   journal={arXiv},
   year={2025}
