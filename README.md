@@ -17,6 +17,7 @@
 <p align="center">
   <a href="https://arxiv.org/pdf/2610.11751"><img src="https://img.shields.io/badge/arXiv-PDF-b31b1b" alt="arXiv"></a>
   <a href="https://arijit-hub.github.io/projects/dino_forcing/"><img src="https://img.shields.io/badge/Project-Page-4682b4" alt="Project Page"></a>
+  <a href="https://huggingface.co/arijitghosh/dino_forcing/tree/main"><img src="https://img.shields.io/badge/%F0%9F%A4%97%20Hugging%20Face-Models-ffc107" alt="Hugging Face Models"></a>
 </p>
 
 This repository contains the official implementation of **Dino Forcing**, a method for training data efficient flow models.
